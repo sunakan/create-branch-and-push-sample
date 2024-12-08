@@ -9,8 +9,10 @@ jobs:
   create-branch-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: リポジトリをチェックアウト
+      - name: リポジトリをチェックアウト(全ブランチ)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: ブランチへswitch
         run: |
           branch_name="storage"
