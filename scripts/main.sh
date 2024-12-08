@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu -o pipefail
-# set -x
+set -x
 # -e: エラーが発生した時点でスクリプトを終了
 # -u: 未定義の変数を使用した場合にエラーを発生
 # -x: スクリプトの実行内容を表示(debugで利用)
@@ -16,6 +16,7 @@ git fetch origin ${TARGET_BRANCH}
 git branch -D ${TARGET_BRANCH} || echo ''
 git branch ${TARGET_BRANCH} origin/${TARGET_BRANCH}
 git restore --source ${TARGET_BRANCH} -- ${DATA_FILE}
+echo '-------A'
 
 #
 # 処理 & dataを退避
@@ -23,12 +24,14 @@ git restore --source ${TARGET_BRANCH} -- ${DATA_FILE}
 echo "a,b,c,$(date)" >> ${DATA_FILE}
 cat ${DATA_FILE} | tail -n 3 > tmp/${DATA_FILE}
 rm data.csv
+echo '-------B'
 
 #
 # dataを持ってくる
 #
 git switch ${TARGET_BRANCH}
 mv tmp/data.csv ./
+echo '-------C'
 
 #
 # Auto commit
@@ -42,11 +45,13 @@ readonly DEFAULT_USER_EMAIL='41898282+github-actions[bot]@users.noreply.github.c
 readonly USER_NAME=$(git config user.name)
 readonly USER_EMAIL=$(git config user.email)
 git commit --amend --author="${USER_NAME:-${DEFAULT_USER_NAME}} <${USER_EMAIL:-${DEFAULT_USER_EMAIL}}>" -m "Automated commit"
+echo '-------D'
 
 #
 # Force push
 #
 git push origin ${TARGET_BRANCH} --force
+echo '-------E'
 
 #
 # 戻る
