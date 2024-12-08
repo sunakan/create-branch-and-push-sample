@@ -37,9 +37,11 @@ mv tmp/data.csv ./
 # https://github.com/orgs/community/discussions/26560
 #
 git stage data.csv
-readonly USER_NAME='github-actions[bot]'
-readonly USER_EMAIL='41898282+github-actions[bot]@users.noreply.github.com'
-git commit --amend --author="${USER_NAME} <${USER_EMAIL}>" -m "Automated commit"
+readonly DEFAULT_USER_NAME='github-actions[bot]'
+readonly DEFAULT_USER_EMAIL='41898282+github-actions[bot]@users.noreply.github.com'
+readonly USER_NAME=$(git config user.name)
+readonly USER_EMAIL=$(git config user.email)
+git commit --amend --author="${USER_NAME:-${DEFAULT_USER_NAME}} <${USER_EMAIL:-${DEFAULT_USER_EMAIL}}>" -m "Automated commit"
 
 #
 # Force push
