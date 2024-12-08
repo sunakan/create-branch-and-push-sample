@@ -20,29 +20,33 @@ jobs:
         run: |
           echo '---'
           echo "$(git branch)"
+          echo '---[ ls -alh ]'
           ls -alh
-          echo '---'
+          echo '---[ ls -alh tmp/ ]'
           ls -alh tmp/
           echo '---'
           mv data.csv tmp/data.csv
           echo '---'
           echo "$(git branch)"
+          echo '---[ ls -alh tmp/ ]'
           ls -alh tmp/
           echo '---'
       - name: ブランチへswitch
         run: |
-          echo '---[ switch 前 ]'
+          echo '---[ switch 前 ls -lah ]'
           ls -lah
           branch_name="storage"
           git switch ${branch_name} || git switch -c ${branch_name}
-          echo '---[ switch 後 ]'
+          echo '---[ switch 後 ls -lah ]'
           ls -lah
       - name: git commit
         run: |
           echo '---'
           echo "$(git branch)"
+          echo '---[ ls -alh tmp/ ]'
           ls -alh tmp/
           echo '---'
+          mv tmp/data.csv ./
           git stage .
           git config user.name github-actions
           git config user.email github-actions@github.com
