@@ -40,9 +40,9 @@ DEFAULT_USER_NAME='github-actions[bot]'
 echo 'a'
 DEFAULT_USER_EMAIL='41898282+github-actions[bot]@users.noreply.github.com'
 echo 'b'
-USER_NAME="$(git config user.name)"
+USER_NAME="$(git config user.name || echo ${DEFAULT_USER_NAME})"
 echo 'c'
-USER_EMAIL="$(git config user.email)"
+USER_EMAIL="$(git config user.email || echo ${DEFAULT_USER_EMAIL})"
 echo 'd'
 git config user.name "${USER_NAME:-${DEFAULT_USER_NAME}}"
 git config user.email "${USER_EMAIL:-${DEFAULT_USER_EMAIL}}"
