@@ -46,7 +46,7 @@ jobs:
           git stage .
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git commit -m "Automated commit"
+          git commit --amend -m "Automated commit"
       - name: ブランチへforce push
         run: |
           echo '---'
