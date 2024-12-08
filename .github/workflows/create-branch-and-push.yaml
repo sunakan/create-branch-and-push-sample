@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
-      - name: Create new branch
+      - name: ブランチへswitch
         run: |
           branch_name="storage"
           git switch ${branch_name} || git switch -c ${branch_name}
@@ -21,13 +21,21 @@ jobs:
       - name: move data.csv tmp/data.csv
         run: |
           mv data.csv tmp/data.csv
-      - name: Make changes
+          echo '---'
+          echo "$(git branch)"
+          ls -alh tmp/
+          echo '---'
+      - name: git commit
         run: |
+          echo '---'
+          echo "$(git branch)"
+          ls -alh tmp/
+          echo '---'
           git stage .
           git config user.name github-actions
           git config user.email github-actions@github.com
           git commit -m "Automated commit"
-      - name: Force push to new branch
+      - name: ブランチへforce push
         run: |
           echo '---'
           echo "BRANCH: ${branch_name}"
