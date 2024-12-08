@@ -33,8 +33,13 @@ mv tmp/data.csv ./
 #
 # Auto commit
 #
+# 自動でcommitする時のuserとemail指定の参考
+# https://github.com/orgs/community/discussions/26560
+#
 git stage data.csv
-git commit --amend --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" -m "Automated commit"
+readonly USER_NAME='github-actions[bot]'
+readonly USER_EMAIL='41898282+github-actions[bot]@users.noreply.github.com'
+git commit --amend --author="${USER_NAME} <${USER_EMAIL}>" -m "Automated commit"
 
 #
 # Force push
