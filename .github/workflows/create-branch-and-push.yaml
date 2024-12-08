@@ -13,10 +13,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: ブランチへswitch
-        run: |
-          branch_name="storage"
-          git switch ${branch_name} || git switch -c ${branch_name}
       - name: data.csvの作成
         run: |
           echo "a,b,c" > data.csv
@@ -33,6 +29,14 @@ jobs:
           echo "$(git branch)"
           ls -alh tmp/
           echo '---'
+      - name: ブランチへswitch
+        run: |
+          echo '---[ switch 前 ]'
+          ls -lah
+          branch_name="storage"
+          git switch ${branch_name} || git switch -c ${branch_name}
+          echo '---[ switch 後 ]'
+          ls -lah
       - name: git commit
         run: |
           echo '---'
