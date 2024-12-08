@@ -1,0 +1,37 @@
+name: ブランチ作成とforce push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-branch-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+      - name: Create new branch
+        run: |
+          branch_name="storage"
+          git switch ${branch_name} || git switch -c ${branch_name}
+      - name: data.csvの作成
+        run: |
+          echo "a,b,c" > data.csv
+      - name: move data.csv tmp/data.csv
+        run: |
+          mv data.csv tmp/data.csv
+      - name: Make changes
+        run: |
+          git stage .
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -m "Automated commit"
+      - name: Force push to new branch
+        run: |
+          echo '---'
+          echo "BRANCH: ${branch_name}"
+          echo '---'
+          git push origin $branch_name --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
