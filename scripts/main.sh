@@ -34,9 +34,7 @@ mv tmp/data.csv ./
 # Auto commit
 #
 git stage data.csv
-export GIT_AUTHOR_NAME="robot"
-export GIT_AUTHOR_EMAIL="robot"
-git commit --amend -m "Automated commit"
+git commit --amend --author="github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" -m "Automated commit"
 
 #
 # Force push
