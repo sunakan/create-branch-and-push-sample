@@ -22,6 +22,12 @@ jobs:
           echo "a,b,c" > data.csv
       - name: move data.csv tmp/data.csv
         run: |
+          echo '---'
+          echo "$(git branch)"
+          ls -alh
+          echo '---'
+          ls -alh tmp/
+          echo '---'
           mv data.csv tmp/data.csv
           echo '---'
           echo "$(git branch)"
