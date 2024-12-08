@@ -16,39 +16,25 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: data.csvの作成
+      - name: storageブランチからdata.csvを引っ張る
         run: |
-          echo "a,b,c" > data.csv
-      - name: move data.csv tmp/data.csv
-        run: |
-          echo '---'
-          echo "$(git branch)"
-          echo '---[ ls -alh ]'
-          ls -alh
-          echo '---[ ls -alh tmp/ ]'
-          ls -alh tmp/
-          echo '---'
-          mv data.csv tmp/data.csv
-          echo '---'
-          echo "$(git branch)"
-          echo '---[ ls -alh tmp/ ]'
-          ls -alh tmp/
-          echo '---'
-      - name: ブランチへswitch
-        run: |
-          echo '---[ switch 前 ls -lah ]'
-          ls -lah
           branch_name="storage"
           git switch ${branch_name} || git switch -c ${branch_name}
-          echo '---[ switch 後 ls -lah ]'
-          ls -lah
+          mkdir -p tmp
+          mv data.csv tmp/
+          git switch -
+          mv tmp/data.csv ./
+      - name: data.csvの作成
+        run: |
+          echo "a,b,c,$(date)" >> data.csv
+          cat data.csv | tail -n 3 > tmp/data.csv
+          rm data.csv
+      - name: ブランチへswitch
+        run: |
+          branch_name="storage"
+          git switch ${branch_name} || git switch -c ${branch_name}
       - name: git commit
         run: |
-          echo '---'
-          echo "$(git branch)"
-          echo '---[ ls -alh tmp/ ]'
-          ls -alh tmp/
-          echo '---'
           mv tmp/data.csv ./
           git stage .
           git config user.name github-actions
@@ -57,9 +43,6 @@ jobs:
       - name: ブランチへforce push
         run: |
           branch_name="storage"
-          echo '---'
-          echo "BRANCH: ${branch_name}"
-          echo '---'
           git push origin $branch_name --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
