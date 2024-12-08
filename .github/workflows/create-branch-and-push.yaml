@@ -1,5 +1,8 @@
 name: ブランチ作成とforce push
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
