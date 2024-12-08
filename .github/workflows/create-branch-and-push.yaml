@@ -53,6 +53,7 @@ jobs:
           git commit --amend -m "Automated commit"
       - name: ブランチへforce push
         run: |
+          branch_name="storage"
           echo '---'
           echo "BRANCH: ${branch_name}"
           echo '---'
